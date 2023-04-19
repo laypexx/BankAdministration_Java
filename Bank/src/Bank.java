@@ -14,8 +14,8 @@ L List;
         this.List = List;
     }
 
-    public void addAccount() {
-
+    public void addAccount(Bankaccount account) {
+        List.add(account);
     }
 
     public void removeAccount() {
