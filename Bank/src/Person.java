@@ -6,13 +6,15 @@ public class Person {
     String Name;
     String Vorname;
     LocalDate Birthday;
+    String Adresse;
 
 
-    public Person(int P_ID, String Name, String Vorname, LocalDate Birthday) {
+    public Person(int P_ID, String Name, String Vorname, LocalDate Birthday, String Adresse) {
         this.P_ID = P_ID;
         this.Name = Name;
         this.Vorname = Vorname;
         this.Birthday = Birthday;
+        this.Adresse = Adresse;
     }
 
     public void getAge() {
