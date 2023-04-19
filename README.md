@@ -5,6 +5,7 @@
 - Object Oriented Programming (OOP)
 - Software principles
 - Using IntelliJ (JetBrains)
+- Learning Java with ChatGPT 
 
 ### Hyped to do, but wont do it lol
 
