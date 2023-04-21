@@ -32,7 +32,11 @@ ArrayList<Bankaccount> accounts;
     }
 
     public double getTotalBalance() {
-        return 0;
+        double totalBalance = 0;
+        for (Bankaccount account: accounts) {
+            totalBalance += account.getBalance();
+        }
+        return totalBalance;
     }
 }
 
@@ -53,8 +57,7 @@ class Bankaccount extends Bank {
         return Kontonummer;
     }
 
-    @Override
-    public double getTotalBalance () {
+    public double getBalance () {
         return Kontostand;
     }
 
@@ -70,15 +73,13 @@ class Bankaccount extends Bank {
 
     }
 }
-
-class Transaction extends Bankaccount {
+class Transaction {
     Person Sender;
     Person Empfaenger;
     double Summe;
     LocalDate Date;
 
-    public Transaction(String name, double Kontostand, int Kontonummer, Person Inhaber, Person Sender, Person Empfaenger, double Summe, LocalDate Date) {
-        super(name, Kontostand, Kontonummer, Inhaber);
+    public Transaction(Person Sender, Person Empfaenger, double Summe, LocalDate Date) {
         this.Sender = Sender;
         this.Empfaenger = Empfaenger;
         this.Summe = Summe;
