@@ -32,7 +32,7 @@ ArrayList<Bankaccount> accounts;
     }
 
     public double getTotalBalance() {
-
+        return 0;
     }
 }
 
@@ -71,7 +71,7 @@ class Bankaccount extends Bank {
     }
 }
 
-class Transaction<L> extends Bankaccount {
+class Transaction extends Bankaccount {
     Person Sender;
     Person Empfaenger;
     double Summe;
