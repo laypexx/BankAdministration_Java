@@ -80,8 +80,8 @@ class Bankaccount extends Bank {
         }
     }
 
-    public void getOwner(Person Inhaber) {
-
+    public Person getOwner() {
+        return Inhaber;
     }
 }
 class Transaction {
