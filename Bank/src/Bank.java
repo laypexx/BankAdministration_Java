@@ -1,51 +1,61 @@
 import java.time.LocalDate;
-import java.time.Period;
+import java.util.ArrayList;
 
-public class Bank<L> {
+public class Bank {
 String name;
-L List;
+ArrayList<Bankaccount> accounts;
 
-    public Bank (String name, L List) {
+    public Bank (String name) {
         this.name = name;
-        this.List = List;
-    }
-
-    public void setValue(L List) {
-        this.List = List;
+        accounts = new ArrayList<Bankaccount>();
     }
 
     public void addAccount(Bankaccount account) {
-        List.add(account);
+        accounts.add(account);
     }
 
-    public void removeAccount() {
-
+    public void removeAccount(Bankaccount account) {
+        accounts.remove(account);
     }
 
-    public void getAccount() {
-
+    public Bankaccount getAccount(int Accountnumber) {
+        for (Bankaccount account: accounts) {
+            if (account.getAccountNumber() == Accountnumber) {
+                return account;
+            }
+        }
+        return null;
     }
 
-    public void getAllAccounts() {
-
+    public ArrayList<Bankaccount> getAllAccounts() {
+        return accounts;
     }
 
-    public void getTotalBalance() {
+    public double getTotalBalance() {
 
     }
 }
 
-class Bankaccount<L> extends Bank {
+class Bankaccount extends Bank {
     double Kontostand;
     int Kontonummer;
 
     Person Inhaber;
 
-    public Bankaccount(String name, L List, double Kontostand, int Kontonummer, Person Inhaber) {
-        super(name, List);
+    public Bankaccount(String name, double Kontostand, int Kontonummer, Person Inhaber) {
+        super(name);
         this.Kontostand = Kontostand;
         this.Kontonummer = Kontonummer;
         this.Inhaber = Inhaber;
+    }
+
+    public int getAccountNumber() {
+        return Kontonummer;
+    }
+
+    @Override
+    public double getTotalBalance () {
+        return Kontostand;
     }
 
     public void sendMoney() {
@@ -53,10 +63,6 @@ class Bankaccount<L> extends Bank {
     }
 
     public void getMoney() {
-
-    }
-
-    public void getBalance(double Kontostand) {
 
     }
 
@@ -71,8 +77,8 @@ class Transaction<L> extends Bankaccount {
     double Summe;
     LocalDate Date;
 
-    public Transaction(String name, L List, double Kontostand, int Kontonummer, Person Inhaber, Person Sender, Person Empfaenger, double Summe, LocalDate Date) {
-        super(name, List, Kontostand, Kontonummer, Inhaber);
+    public Transaction(String name, double Kontostand, int Kontonummer, Person Inhaber, Person Sender, Person Empfaenger, double Summe, LocalDate Date) {
+        super(name, Kontostand, Kontonummer, Inhaber);
         this.Sender = Sender;
         this.Empfaenger = Empfaenger;
         this.Summe = Summe;
