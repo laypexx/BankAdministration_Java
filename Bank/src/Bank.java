@@ -61,8 +61,14 @@ class Bankaccount extends Bank {
         return Kontostand;
     }
 
-    public void sendMoney() {
-
+    public void sendMoney(Bankaccount recipient, double amount) {
+        if (this.Kontostand >= amount) {
+            this.Kontostand -= amount;
+            recipient.Kontostand += amount;
+            System.out.println(amount+" € wurden erfolgreich an das Konto mit der Kontonummer "+ recipient.Kontonummer+" überwiesen.");
+        } else {
+            System.out.println("Transaktion konnte nicht durchgeführt werden, Kontostand zu niedrig!");
+        }
     }
 
     public void getMoney() {
