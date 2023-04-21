@@ -71,8 +71,13 @@ class Bankaccount extends Bank {
         }
     }
 
-    public void getMoney() {
-
+    public void getMoney(double amount) {
+        if (Kontostand >= amount) {
+            Kontostand -= amount;
+            System.out.println(amount+" € wurden erfolgreich abgehoben.");
+        } else {
+            System.out.println("Ihr Konto ist nicht genügend gedeckt um "+amount+" € abzuheben.");
+        }
     }
 
     public void getOwner(Person Inhaber) {
