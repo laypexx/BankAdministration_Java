@@ -45,6 +45,7 @@ class Bankaccount extends Bank {
     int Kontonummer;
 
     Person Inhaber;
+    private double balance;
 
     public Bankaccount(String name, double Kontostand, int Kontonummer, Person Inhaber) {
         super(name);
@@ -83,22 +84,46 @@ class Bankaccount extends Bank {
     public Person getOwner() {
         return Inhaber;
     }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
+    public Bank getBank(Bank bank) {
+        return bank;
+    }
 }
 class Transaction {
     Person Sender;
     Person Empfaenger;
     double Summe;
     LocalDate Date;
+    Bank bank;
 
-    public Transaction(Person Sender, Person Empfaenger, double Summe, LocalDate Date) {
+    public Transaction(Person Sender, Person Empfaenger, double Summe, LocalDate Date, Bank bank) {
         this.Sender = Sender;
         this.Empfaenger = Empfaenger;
         this.Summe = Summe;
         this.Date = Date;
+        this.bank = bank;
     }
 
     public void execute() {
-        LocalDate Date = LocalDate.now();
+        Bank bank = this.getBank();
+        Bankaccount senderAccount = bank.getAccount(this.Sender.getAccountNumber());
+        Bankaccount receiverAccount = bank.getAccount(this.Empfaenger.getAccountNumber());
+
+        if (senderAccount != null && receiverAccount != null) {
+            if (senderAccount.getBalance() >= this.Summe) {
+                senderAccount.setBalance(senderAccount.getBalance() - this.Summe);
+                receiverAccount.setBalance(receiverAccount.getBalance() + this.Summe);
+                System.out.println("Transaktion erfolgreich");
+            } else {
+                System.out.println("Transaktion fehlgeschlagen. Zu wenig Geld.");
+            }
+        } else {
+            System.out.println("Transaktion fehlgeschlagen. Falscher Sender/Empfänger Account.");
+        }
     }
 }
 
