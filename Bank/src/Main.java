@@ -12,7 +12,7 @@ public class Main {
         Musterbank.addAccount(bobACC);
         Musterbank.addAccount(daveACC);
 
-        Transaction transaction = new Transaction(bobACC, daveACC, 500, LocalDate.now(), Musterbank);
+        Transaction transaction = new Transaction(daveACC, bobACC, 500, LocalDate.now(), Musterbank);
         transaction.execute();
 
         System.out.println("Dave Kontostand: " + daveACC.getBalance());
