@@ -40,15 +40,14 @@ ArrayList<Bankaccount> accounts;
     }
 }
 
-class Bankaccount extends Bank {
+class Bankaccount {
     double Kontostand;
     int Kontonummer;
 
     Person Inhaber;
     private double balance;
 
-    public Bankaccount(String name, double Kontostand, int Kontonummer, Person Inhaber) {
-        super(name);
+    public Bankaccount(double Kontostand, int Kontonummer, Person Inhaber) {
         this.Kontostand = Kontostand;
         this.Kontonummer = Kontonummer;
         this.Inhaber = Inhaber;
@@ -89,34 +88,26 @@ class Bankaccount extends Bank {
         this.balance = balance;
     }
 
-    public Bank getBank(Bank bank) {
-        return bank;
-    }
 }
 class Transaction {
-    Person Sender;
-    Person Empfaenger;
+    Bankaccount senderAccount;
+    Bankaccount receiverAccount;
     double Summe;
     LocalDate Date;
     Bank bank;
 
-    public Transaction(Person Sender, Person Empfaenger, double Summe, LocalDate Date, Bank bank) {
-        this.Sender = Sender;
-        this.Empfaenger = Empfaenger;
+    public Transaction(Bankaccount senderAccount, Bankaccount receiverAccount, double Summe, LocalDate Date, Bank bank) {
+        this.senderAccount = senderAccount;
+        this.receiverAccount = receiverAccount;
         this.Summe = Summe;
         this.Date = Date;
         this.bank = bank;
     }
 
     public void execute() {
-        Bank bank = this.getBank();
-        Bankaccount senderAccount = bank.getAccount(this.Sender.getAccountNumber());
-        Bankaccount receiverAccount = bank.getAccount(this.Empfaenger.getAccountNumber());
-
         if (senderAccount != null && receiverAccount != null) {
             if (senderAccount.getBalance() >= this.Summe) {
-                senderAccount.setBalance(senderAccount.getBalance() - this.Summe);
-                receiverAccount.setBalance(receiverAccount.getBalance() + this.Summe);
+                senderAccount.sendMoney(receiverAccount, this.Summe);
                 System.out.println("Transaktion erfolgreich");
             } else {
                 System.out.println("Transaktion fehlgeschlagen. Zu wenig Geld.");
