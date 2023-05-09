@@ -1,86 +1,120 @@
 import java.time.LocalDate;
-import java.time.Period;
+import java.util.ArrayList;
 
-public class Bank<L> {
+public class Bank {
 String name;
-L List;
+ArrayList<Bankaccount> accounts;
 
-    public Bank (String name, L List) {
+    public Bank (String name) {
         this.name = name;
-        this.List = List;
+        accounts = new ArrayList<Bankaccount>();
     }
 
-    public void setValue(L List) {
-        this.List = List;
+    public void addAccount(Bankaccount account) {
+        accounts.add(account);
     }
 
-    public void addAccount() {
-
+    public void removeAccount(Bankaccount account) {
+        accounts.remove(account);
     }
 
-    public void removeAccount() {
-
+    public Bankaccount getAccount(int Accountnumber) {
+        for (Bankaccount account: accounts) {
+            if (account.getAccountNumber() == Accountnumber) {
+                return account;
+            }
+        }
+        return null;
     }
 
-    public void getAccount() {
-
+    public ArrayList<Bankaccount> getAllAccounts() {
+        return accounts;
     }
 
-    public void getAllAccounts() {
-
-    }
-
-    public void getTotalBalance() {
-
+    public double getTotalBalance() {
+        double totalBalance = 0;
+        for (Bankaccount account: accounts) {
+            totalBalance += account.getBalance();
+        }
+        return totalBalance;
     }
 }
 
-class Bankaccount<L> extends Bank {
+class Bankaccount {
     double Kontostand;
     int Kontonummer;
 
     Person Inhaber;
+    private double balance;
 
-    public Bankaccount(String name, L List, double Kontostand, int Kontonummer, Person Inhaber) {
-        super(name, List);
+    public Bankaccount(double Kontostand, int Kontonummer, Person Inhaber) {
         this.Kontostand = Kontostand;
         this.Kontonummer = Kontonummer;
         this.Inhaber = Inhaber;
     }
 
-    public void sendMoney() {
-
+    public int getAccountNumber() {
+        return Kontonummer;
     }
 
-    public void getMoney() {
-
+    public double getBalance () {
+        return Kontostand;
     }
 
-    public void getBalance(double Kontostand) {
-
+    public void sendMoney(Bankaccount recipient, double amount) {
+        if (this.Kontostand >= amount) {
+            this.Kontostand -= amount;
+            recipient.Kontostand += amount;
+            System.out.println(amount+" € wurden erfolgreich an das Konto mit der Kontonummer "+ recipient.Kontonummer+" überwiesen.");
+        } else {
+            System.out.println("Transaktion konnte nicht durchgeführt werden, Kontostand zu niedrig!");
+        }
     }
 
-    public void getOwner(Person Inhaber) {
-
+    public void getMoney(double amount) {
+        if (Kontostand >= amount) {
+            Kontostand -= amount;
+            System.out.println(amount+" € wurden erfolgreich abgehoben.");
+        } else {
+            System.out.println("Ihr Konto ist nicht genügend gedeckt um "+amount+" € abzuheben.");
+        }
     }
+
+    public Person getOwner() {
+        return Inhaber;
+    }
+
+    public void setBalance(double balance) {
+        this.balance = balance;
+    }
+
 }
-
-class Transaction<L> extends Bankaccount {
-    Person Sender;
-    Person Empfaenger;
+class Transaction {
+    Bankaccount senderAccount;
+    Bankaccount receiverAccount;
     double Summe;
     LocalDate Date;
+    Bank bank;
 
-    public Transaction(String name, L List, double Kontostand, int Kontonummer, Person Inhaber, Person Sender, Person Empfaenger, double Summe, LocalDate Date) {
-        super(name, List, Kontostand, Kontonummer, Inhaber);
-        this.Sender = Sender;
-        this.Empfaenger = Empfaenger;
+    public Transaction(Bankaccount senderAccount, Bankaccount receiverAccount, double Summe, LocalDate Date, Bank bank) {
+        this.senderAccount = senderAccount;
+        this.receiverAccount = receiverAccount;
         this.Summe = Summe;
         this.Date = Date;
+        this.bank = bank;
     }
 
     public void execute() {
-        LocalDate Date = LocalDate.now();
+        if (senderAccount != null && receiverAccount != null) {
+            if (senderAccount.getBalance() >= this.Summe) {
+                senderAccount.sendMoney(receiverAccount, this.Summe);
+                System.out.println("Transaktion erfolgreich");
+            } else {
+                System.out.println("Transaktion fehlgeschlagen. Zu wenig Geld.");
+            }
+        } else {
+            System.out.println("Transaktion fehlgeschlagen. Falscher Sender/Empfänger Account.");
+        }
     }
 }
 
