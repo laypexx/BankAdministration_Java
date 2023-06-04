@@ -16,7 +16,14 @@ public class Main {
         transaction.execute();
 
         System.out.println("Dave Kontostand: " + daveACC.getBalance());
+        System.out.println("Dave Accountnummer: "+ daveACC.getAccountNumber());
+        System.out.println("");
+
         System.out.println("Bob Kontostand: " + bobACC.getBalance());
+        System.out.println("Bob Accountnummer: "+ bobACC.getAccountNumber());
+        System.out.println("");
+
         System.out.println("Gesamtsaldo der Bank: " + Musterbank.getTotalBalance());
+        System.out.println("Alle Accounts der Bank: " + Musterbank.getAllAccounts());
     }
 }
