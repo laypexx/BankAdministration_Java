@@ -13,7 +13,11 @@ public class Main {
         Musterbank.addAccount(daveACC);
 
         Transaction transaction = new Transaction(daveACC, bobACC, 500, LocalDate.now(), Musterbank);
+
+        System.out.println("Neue Transaktion: von " + transaction.senderAccount + " zu " + transaction.receiverAccount +" Summe: " + transaction.Summe + " am " + transaction.Date);
+        System.out.println("");
         transaction.execute();
+        System.out.println("");
 
         System.out.println("Dave Kontostand: " + daveACC.getBalance());
         System.out.println("Dave Accountnummer: "+ daveACC.getAccountNumber());
